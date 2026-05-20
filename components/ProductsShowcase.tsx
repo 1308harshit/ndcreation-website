@@ -1,51 +1,22 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Smartphone, Brain, Globe, Gamepad2, ExternalLink, Download } from 'lucide-react';
+import { Brain, Calendar, Video, ExternalLink, Download, Smartphone } from 'lucide-react';
 import Link from 'next/link';
+import { products as productsData } from '@/lib/products-data';
 
-const products = [
-  {
-    id: 1,
-    name: 'TaskMaster Pro',
-    category: 'Apps',
-    description: 'AI-powered task management app with smart scheduling and productivity insights.',
-    icon: Smartphone,
-    tags: ['React Native', 'AI', 'Cloud'],
-    playStoreLink: '#',
-    featured: true,
-  },
-  {
-    id: 2,
-    name: 'Neural Insights',
-    category: 'AI',
-    description: 'Advanced machine learning platform for predictive analytics and data visualization.',
-    icon: Brain,
-    tags: ['Python', 'TensorFlow', 'API'],
-    webLink: '#',
-    featured: true,
-  },
-  {
-    id: 3,
-    name: 'EcoCommerce',
-    category: 'Websites',
-    description: 'Sustainable e-commerce platform with carbon footprint tracking.',
-    icon: Globe,
-    tags: ['Next.js', 'Stripe', 'PostgreSQL'],
-    webLink: '#',
-    featured: true,
-  },
-  {
-    id: 4,
-    name: 'Cyber Quest',
-    category: 'Games',
-    description: 'Immersive cyberpunk RPG with stunning graphics and engaging storyline.',
-    icon: Gamepad2,
-    tags: ['Unity', '3D', 'Multiplayer'],
-    downloadLink: '#',
-    featured: true,
-  },
-];
+// Map product categories to icons
+const iconMap: Record<string, any> = {
+  'AI': Brain,
+  'Apps': Smartphone,
+  'Websites': Calendar,
+  'Games': Video,
+};
+
+const products = productsData.map(product => ({
+  ...product,
+  icon: iconMap[product.category] || Brain,
+}));
 
 export default function ProductsShowcase() {
   return (

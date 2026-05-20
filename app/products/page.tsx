@@ -6,99 +6,22 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import AnimatedCursor from '@/components/AnimatedCursor';
-import { Search, Filter, Smartphone, Brain, Globe, Gamepad2, ExternalLink, Download } from 'lucide-react';
+import { Search, Filter, Smartphone, Brain, Calendar, Video, ExternalLink, Download } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '@/lib/constants';
+import { products as productsData } from '@/lib/products-data';
 
-const allProducts = [
-  {
-    id: 1,
-    name: 'TaskMaster Pro',
-    category: 'Apps',
-    description: 'AI-powered task management app with smart scheduling, productivity insights, and team collaboration features.',
-    icon: Smartphone,
-    tags: ['React Native', 'AI', 'Cloud', 'Real-time'],
-    playStoreLink: '#',
-    featured: true,
-    image: '/products/taskmaster.jpg',
-  },
-  {
-    id: 2,
-    name: 'Neural Insights',
-    category: 'AI',
-    description: 'Advanced machine learning platform for predictive analytics, data visualization, and automated insights.',
-    icon: Brain,
-    tags: ['Python', 'TensorFlow', 'API', 'ML'],
-    webLink: '#',
-    featured: true,
-    image: '/products/neural.jpg',
-  },
-  {
-    id: 3,
-    name: 'EcoCommerce',
-    category: 'Websites',
-    description: 'Sustainable e-commerce platform with carbon footprint tracking and eco-friendly shipping options.',
-    icon: Globe,
-    tags: ['Next.js', 'Stripe', 'PostgreSQL', 'Analytics'],
-    webLink: '#',
-    featured: true,
-    image: '/products/ecocommerce.jpg',
-  },
-  {
-    id: 4,
-    name: 'Cyber Quest',
-    category: 'Games',
-    description: 'Immersive cyberpunk RPG with stunning graphics, engaging storyline, and multiplayer battles.',
-    icon: Gamepad2,
-    tags: ['Unity', '3D', 'Multiplayer', 'VR'],
-    downloadLink: '#',
-    featured: true,
-    image: '/products/cyberquest.jpg',
-  },
-  {
-    id: 5,
-    name: 'FitTrack AI',
-    category: 'Apps',
-    description: 'Personal fitness tracker with AI-powered workout recommendations and nutrition planning.',
-    icon: Smartphone,
-    tags: ['Flutter', 'AI', 'Health', 'Wearables'],
-    playStoreLink: '#',
-    featured: false,
-    image: '/products/fittrack.jpg',
-  },
-  {
-    id: 6,
-    name: 'DataViz Pro',
-    category: 'AI',
-    description: 'Transform complex data into beautiful, interactive visualizations with AI-powered insights.',
-    icon: Brain,
-    tags: ['D3.js', 'Python', 'WebGL', 'Analytics'],
-    webLink: '#',
-    featured: false,
-    image: '/products/dataviz.jpg',
-  },
-  {
-    id: 7,
-    name: 'Portfolio Studio',
-    category: 'Websites',
-    description: 'Create stunning portfolio websites with drag-and-drop builder and premium templates.',
-    icon: Globe,
-    tags: ['React', 'CMS', 'Templates', 'SEO'],
-    webLink: '#',
-    featured: false,
-    image: '/products/portfolio.jpg',
-  },
-  {
-    id: 8,
-    name: 'Space Raiders',
-    category: 'Games',
-    description: 'Fast-paced space shooter with procedurally generated levels and competitive leaderboards.',
-    icon: Gamepad2,
-    tags: ['Unreal', '3D', 'Multiplayer', 'Competitive'],
-    downloadLink: '#',
-    featured: false,
-    image: '/products/space.jpg',
-  },
-];
+// Map product categories to icons
+const iconMap: Record<string, any> = {
+  'AI': Brain,
+  'Apps': Smartphone,
+  'Websites': Calendar,
+  'Games': Video,
+};
+
+const allProducts = productsData.map(product => ({
+  ...product,
+  icon: iconMap[product.category] || Brain,
+}));
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
