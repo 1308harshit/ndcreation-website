@@ -119,16 +119,7 @@ export default function ProductsShowcase() {
                       className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white text-sm font-medium hover:scale-105 transition-transform"
                     >
                       <ExternalLink className="w-4 h-4" />
-                      Visit Site
-                    </Link>
-                  )}
-                  {product.downloadLink && (
-                    <Link
-                      href={product.downloadLink}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white text-sm font-medium hover:scale-105 transition-transform"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download
+                      {product.playStoreLink ? 'Visit Site' : 'Launch App'}
                     </Link>
                   )}
                 </div>

@@ -23,7 +23,6 @@ export const products = [
     category: 'Apps',
     description: 'Comprehensive event management platform that simplifies planning, ticketing, attendee management, and real-time event analytics for seamless event experiences.',
     tags: ['Events', 'Management', 'Ticketing', 'Analytics'],
-    playStoreLink: '#',
     webLink: '#',
     featured: true,
   },
@@ -33,8 +32,8 @@ export const products = [
     category: 'AI',
     description: 'AI-driven video creation tool that transforms ideas into engaging short-form videos, reels, and social media content with automated editing and effects.',
     tags: ['AI', 'Video', 'Social Media', 'Editing'],
+    playStoreLink: '#',
     webLink: '#',
-    downloadLink: '#',
     featured: true,
   },
 ];
