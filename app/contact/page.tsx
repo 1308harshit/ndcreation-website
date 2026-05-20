@@ -193,7 +193,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-400 mb-1">Location</p>
-                      <p className="text-white">San Francisco, CA 94102</p>
+                      <p className="text-white">Gujarat, India</p>
                     </div>
                   </div>
                 </div>
@@ -206,7 +206,7 @@ export default function ContactPage() {
                     { icon: Github, href: 'https://github.com' },
                     { icon: Linkedin, href: 'https://linkedin.com' },
                     { icon: Twitter, href: 'https://twitter.com' },
-                    { icon: Instagram, href: 'https://instagram.com' },
+                    { icon: Instagram, href: 'https://instagram.com/ndcreationstudio' },
                   ].map((social, i) => (
                     <motion.a
                       key={i}

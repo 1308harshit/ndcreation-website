@@ -10,7 +10,7 @@ const socialLinks = [
   { icon: Github, href: 'https://github.com', label: 'GitHub' },
   { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
   { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-  { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+  { icon: Instagram, href: 'https://instagram.com/ndcreationstudio', label: 'Instagram' },
 ];
 
 const quickLinks = [
@@ -117,7 +117,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3 text-gray-400">
                 <MapPin className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
-                <span>San Francisco, CA 94102</span>
+                <span>Gujarat, India</span>
               </li>
             </ul>
 
