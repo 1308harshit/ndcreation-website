@@ -3,6 +3,9 @@ export const BRAND = {
   name: 'NDcreations',
   tagline: 'Engineering the Future',
   description: 'Where Creativity Meets Intelligence',
+  email: 'ndcreation139@gmail.com',
+  phone: '+917069984184',
+  whatsapp: '+917069984184',
 } as const;
 
 // Color Palette

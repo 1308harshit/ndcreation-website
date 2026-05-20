@@ -5,6 +5,7 @@ import { ArrowDown, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { BRAND } from '@/lib/constants';
 import dynamic from 'next/dynamic';
+import Logo from './Logo';
 
 // Dynamically import 3D scene to avoid SSR issues
 const Scene3D = dynamic(() => import('./Scene3D'), { ssr: false });
@@ -74,6 +75,15 @@ export default function Hero() {
         </motion.div>
 
         {/* Animated Logo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mb-6 flex justify-center"
+        >
+          <Logo showText={false} animated={true} className="scale-150" />
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -126,7 +136,9 @@ export default function Hero() {
           </Link>
           
           <Link
-            href="/services"
+            href={`https://wa.me/${BRAND.whatsapp.replace(/\+/g, '')}?text=Hi, I'm interested in booking a service`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative px-8 py-4 rounded-lg glass border border-white/20 text-white font-semibold overflow-hidden transition-all hover:scale-105 hover:border-[var(--electric-blue)]"
           >
             <span className="relative z-10">Book a Service</span>

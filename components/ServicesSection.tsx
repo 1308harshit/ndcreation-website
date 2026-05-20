@@ -166,7 +166,9 @@ export default function ServicesSection() {
 
                 {/* Book Service Button */}
                 <Link
-                  href={`/services?service=${encodeURIComponent(service.name)}`}
+                  href={`https://wa.me/917069984184?text=Hi, I'm interested in ${encodeURIComponent(service.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm font-medium text-[var(--electric-blue)] group-hover:text-[var(--neon-cyan)] transition-colors"
                 >
                   Book Service

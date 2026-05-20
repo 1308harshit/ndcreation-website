@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { BRAND } from '@/lib/constants';
 import { logout } from '@/lib/auth';
+import Logo from '../Logo';
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Overview', href: '/nd-admin/dashboard' },
@@ -42,6 +43,7 @@ export default function AdminSidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
         <Link href="/nd-admin/dashboard" className="block">
+          <Logo showText={false} animated={false} className="scale-90 mb-2" />
           <h1 className="text-2xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent">
             {BRAND.name}
           </h1>

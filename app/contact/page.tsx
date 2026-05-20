@@ -169,8 +169,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-400 mb-1">Email</p>
-                      <a href="mailto:hello@ndcreations.com" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
-                        hello@ndcreations.com
+                      <a href="mailto:ndcreation139@gmail.com" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
+                        ndcreation139@gmail.com
                       </a>
                     </div>
                   </div>
@@ -180,9 +180,9 @@ export default function ContactPage() {
                       <Phone className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-400 mb-1">Phone</p>
-                      <a href="tel:+1234567890" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
-                        +1 (234) 567-890
+                      <p className="text-sm text-gray-400 mb-1">WhatsApp</p>
+                      <a href="https://wa.me/917069984184" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
+                        +91 7069984184
                       </a>
                     </div>
                   </div>

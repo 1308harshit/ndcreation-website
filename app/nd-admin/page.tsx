@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import { login, checkAuth } from '@/lib/auth';
 import { BRAND } from '@/lib/constants';
+import Logo from '@/components/Logo';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
@@ -69,9 +70,7 @@ export default function AdminLoginPage() {
               transition={{ duration: 0.5 }}
               className="inline-block"
             >
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-white" />
-              </div>
+              <Logo showText={false} animated={true} className="mx-auto mb-4" />
               <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-2">
                 {BRAND.name}
               </h1>

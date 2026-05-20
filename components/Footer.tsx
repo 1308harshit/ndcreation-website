@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Github, Linkedin, Twitter, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import { BRAND, NAV_LINKS } from '@/lib/constants';
+import Logo from './Logo';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com', label: 'GitHub' },
@@ -41,9 +42,7 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <Link href="/" className="inline-block mb-4">
-              <span className="text-3xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent">
-                {BRAND.name}
-              </span>
+              <Logo showText={true} animated={false} />
             </Link>
             <p className="text-gray-400 mb-4">{BRAND.tagline}</p>
             <p className="text-sm text-gray-500">{BRAND.description}</p>
@@ -106,14 +105,14 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-gray-400">
                 <Mail className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
-                <a href="mailto:hello@ndcreations.com" className="hover:text-white transition-colors">
-                  hello@ndcreations.com
+                <a href={`mailto:${BRAND.email}`} className="hover:text-white transition-colors">
+                  {BRAND.email}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
                 <Phone className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
-                <a href="tel:+1234567890" className="hover:text-white transition-colors">
-                  +1 (234) 567-890
+                <a href={`https://wa.me/${BRAND.whatsapp.replace(/\+/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                  {BRAND.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
