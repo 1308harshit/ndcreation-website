@@ -29,30 +29,43 @@ export default function ContactPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    // Save to localStorage
-    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-    contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    try {
+      // Save to localStorage
+      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+      contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
+      localStorage.setItem('contacts', JSON.stringify(contacts));
 
-    // Send to WhatsApp with clear formatting
-    const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
-    window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+      // Send email via API
+      const emailResponse = await fetch('/api/send-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Send to Email with clear formatting
-    const emailSubject = `[NDcreations Website] New Contact: ${formData.subject} - From ${formData.name}`;
-    const emailBody = `NEW MESSAGE FROM NDCREATIONS WEBSITE%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A%0ASENDER INFORMATION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AName: ${formData.name}%0AEmail: ${formData.email}%0A%0AREPLY TO: ${formData.email}%0A%0ASUBJECT:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.subject}%0A%0AMESSAGE:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0ATimestamp: ${new Date().toLocaleString()}%0ASource: NDcreations Contact Form%0AWebsite: https://ndcreation-website.vercel.app`;
-    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}&reply-to=${formData.email}`, '_blank');
+      if (!emailResponse.ok) {
+        throw new Error('Failed to send email');
+      }
 
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setErrors({});
-    }, 3000);
+      // Send to WhatsApp with clear formatting
+      const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
+      window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+
+      setFormSubmitted(true);
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setErrors({});
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to send message. Please try again or contact us directly via WhatsApp.');
+    }
   };
 
   return (

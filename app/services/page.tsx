@@ -131,7 +131,7 @@ export default function ServicesPage() {
     setShowBookingModal(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate form
@@ -148,33 +148,46 @@ export default function ServicesPage() {
       return;
     }
     
-    // Save to localStorage
-    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const newBooking = {
-      ...formData,
-      id: Date.now(),
-      date: new Date().toISOString(),
-      status: 'Pending',
-    };
-    bookings.push(newBooking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
+    try {
+      // Save to localStorage
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      const newBooking = {
+        ...formData,
+        id: Date.now(),
+        date: new Date().toISOString(),
+        status: 'Pending',
+      };
+      bookings.push(newBooking);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
 
-    // Send to WhatsApp with clear formatting
-    const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
-    window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+      // Send email via API
+      const emailResponse = await fetch('/api/send-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Send to Email with clear formatting
-    const emailSubject = `[NDcreations Website] New Service Booking: ${formData.serviceType} - From ${formData.name}`;
-    const emailBody = `NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A%0ACLIENT INFORMATION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AName: ${formData.name}%0AEmail: ${formData.email}%0A%0AREPLY TO: ${formData.email}%0A%0ASERVICE DETAILS:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AService Type: ${formData.serviceType}%0ABudget Range: ${formData.budget}%0A%0APROJECT DESCRIPTION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0ATimestamp: ${new Date().toLocaleString()}%0ASource: NDcreations Service Booking Form%0AWebsite: https://ndcreation-website.vercel.app`;
-    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}&reply-to=${formData.email}`, '_blank');
+      if (!emailResponse.ok) {
+        throw new Error('Failed to send email');
+      }
 
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setShowBookingModal(false);
-      setFormSubmitted(false);
-      setFormData({ name: '', email: '', serviceType: '', budget: '', message: '' });
-      setFormErrors({});
-    }, 2000);
+      // Send to WhatsApp with clear formatting
+      const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
+      window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+
+      setFormSubmitted(true);
+      setTimeout(() => {
+        setShowBookingModal(false);
+        setFormSubmitted(false);
+        setFormData({ name: '', email: '', serviceType: '', budget: '', message: '' });
+        setFormErrors({});
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to send booking. Please try again or contact us directly via WhatsApp.');
+    }
   };
 
   return (
