@@ -38,10 +38,20 @@ export default function ContactPage() {
     contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
     localStorage.setItem('contacts', JSON.stringify(contacts));
 
+    // Send to WhatsApp
+    const whatsappMessage = `*New Contact Form Submission*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
+    window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+
+    // Send to Email (using mailto)
+    const emailSubject = `Contact Form: ${formData.subject}`;
+    const emailBody = `Name: ${formData.name}%0AEmail: ${formData.email}%0ASubject: ${formData.subject}%0A%0AMessage:%0A${formData.message}`;
+    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+
     setFormSubmitted(true);
     setTimeout(() => {
       setFormSubmitted(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
+      setErrors({});
     }, 3000);
   };
 
@@ -98,11 +108,23 @@ export default function ContactPage() {
                     <input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.name ? 'border-red-500' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors`}
+                      onChange={(e) => {
+                        setFormData({ ...formData, name: e.target.value });
+                        if (errors.name) setErrors({ ...errors, name: '' });
+                      }}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.name ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                       placeholder="Your name"
                     />
-                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                    {errors.name && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                      >
+                        <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                        {errors.name}
+                      </motion.p>
+                    )}
                   </div>
 
                   <div>
@@ -110,11 +132,23 @@ export default function ContactPage() {
                     <input
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.email ? 'border-red-500' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors`}
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
+                        if (errors.email) setErrors({ ...errors, email: '' });
+                      }}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.email ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                       placeholder="your@email.com"
                     />
-                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    {errors.email && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                      >
+                        <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                        {errors.email}
+                      </motion.p>
+                    )}
                   </div>
 
                   <div>
@@ -122,23 +156,47 @@ export default function ContactPage() {
                     <input
                       type="text"
                       value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.subject ? 'border-red-500' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors`}
+                      onChange={(e) => {
+                        setFormData({ ...formData, subject: e.target.value });
+                        if (errors.subject) setErrors({ ...errors, subject: '' });
+                      }}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.subject ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                       placeholder="How can we help?"
                     />
-                    {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                    {errors.subject && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                      >
+                        <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                        {errors.subject}
+                      </motion.p>
+                    )}
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">Message *</label>
                     <textarea
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={(e) => {
+                        setFormData({ ...formData, message: e.target.value });
+                        if (errors.message) setErrors({ ...errors, message: '' });
+                      }}
                       rows={6}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.message ? 'border-red-500' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors resize-none`}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.message ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all resize-none`}
                       placeholder="Tell us about your project..."
                     />
-                    {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                    {errors.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                      >
+                        <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                        {errors.message}
+                      </motion.p>
+                    )}
                   </div>
 
                   <button

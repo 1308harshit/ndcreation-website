@@ -19,7 +19,7 @@ const services = [
     description: 'Custom AI solutions, machine learning models, and intelligent automation systems tailored to your business needs.',
     icon: Brain,
     features: ['Machine Learning', 'Natural Language Processing', 'Computer Vision', 'Predictive Analytics', 'Deep Learning'],
-    pricing: 'Starting at $5,000',
+    pricing: 'Starting at $999 (₹83,000)',
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const services = [
     description: 'Native and cross-platform mobile applications with stunning UI, seamless performance, and scalable architecture.',
     icon: Smartphone,
     features: ['iOS & Android', 'React Native', 'Flutter', 'Progressive Web Apps', 'App Store Optimization'],
-    pricing: 'Starting at $8,000',
+    pricing: 'Starting at $1,499 (₹1,25,000)',
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const services = [
     description: 'Modern, responsive websites built with cutting-edge technologies for optimal performance and user experience.',
     icon: Globe,
     features: ['Next.js & React', 'E-commerce Solutions', 'CMS Integration', 'SEO Optimization', 'Performance Tuning'],
-    pricing: 'Starting at $3,000',
+    pricing: 'Starting at $599 (₹50,000)',
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const services = [
     description: 'Scalable cloud-based software solutions with multi-tenant architecture and enterprise-grade security.',
     icon: Cloud,
     features: ['Multi-tenant Architecture', 'API Development', 'Cloud Infrastructure', 'Analytics Dashboard', 'Subscription Management'],
-    pricing: 'Starting at $15,000',
+    pricing: 'Starting at $2,999 (₹2,50,000)',
   },
   {
     id: 5,
@@ -51,7 +51,7 @@ const services = [
     description: 'Beautiful, intuitive interfaces that users love, backed by research and data-driven design decisions.',
     icon: Palette,
     features: ['User Research', 'Wireframing & Prototyping', 'Design Systems', 'Usability Testing', 'Brand Identity'],
-    pricing: 'Starting at $2,500',
+    pricing: 'Starting at $499 (₹42,000)',
   },
   {
     id: 6,
@@ -59,7 +59,7 @@ const services = [
     description: 'Immersive gaming experiences across platforms with stunning graphics and engaging gameplay mechanics.',
     icon: Gamepad2,
     features: ['Unity & Unreal Engine', '2D & 3D Games', 'Multiplayer Systems', 'Game Design', 'Cross-platform'],
-    pricing: 'Starting at $10,000',
+    pricing: 'Starting at $1,999 (₹1,67,000)',
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ const services = [
     description: 'Streamline workflows and boost productivity with intelligent automation and process optimization.',
     icon: Zap,
     features: ['Process Automation', 'RPA Solutions', 'Workflow Optimization', 'System Integration', 'Custom Scripts'],
-    pricing: 'Starting at $4,000',
+    pricing: 'Starting at $799 (₹67,000)',
   },
   {
     id: 8,
@@ -75,7 +75,7 @@ const services = [
     description: 'Intelligent agents that handle tasks, answer questions, and assist users with natural conversations.',
     icon: Bot,
     features: ['Chatbots', 'Virtual Assistants', 'Task Automation', 'NLP Integration', '24/7 Support'],
-    pricing: 'Starting at $6,000',
+    pricing: 'Starting at $1,199 (₹1,00,000)',
   },
 ];
 
@@ -114,6 +114,7 @@ export default function ServicesPage() {
     message: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -133,6 +134,20 @@ export default function ServicesPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate form
+    const errors: Record<string, string> = {};
+    if (!formData.name.trim()) errors.name = 'Name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
+    if (!formData.serviceType) errors.serviceType = 'Please select a service';
+    if (!formData.budget) errors.budget = 'Please select a budget range';
+    if (!formData.message.trim()) errors.message = 'Message is required';
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
     // Save to localStorage
     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
     const newBooking = {
@@ -144,11 +159,21 @@ export default function ServicesPage() {
     bookings.push(newBooking);
     localStorage.setItem('bookings', JSON.stringify(bookings));
 
+    // Send to WhatsApp
+    const whatsappMessage = `*New Service Booking*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Service:* ${formData.serviceType}%0A*Budget:* ${formData.budget}%0A*Message:* ${formData.message}`;
+    window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+
+    // Send to Email (using mailto)
+    const emailSubject = `Service Booking: ${formData.serviceType}`;
+    const emailBody = `Name: ${formData.name}%0AEmail: ${formData.email}%0AService: ${formData.serviceType}%0ABudget: ${formData.budget}%0A%0AMessage:%0A${formData.message}`;
+    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+
     setFormSubmitted(true);
     setTimeout(() => {
       setShowBookingModal(false);
       setFormSubmitted(false);
       setFormData({ name: '', email: '', serviceType: '', budget: '', message: '' });
+      setFormErrors({});
     }, 2000);
   };
 
@@ -316,68 +341,128 @@ export default function ServicesPage() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
                   <input
                     type="text"
-                    required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg glass border border-white/10 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors"
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (formErrors.name) setFormErrors({ ...formErrors, name: '' });
+                    }}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.name ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                     placeholder="Your name"
                   />
+                  {formErrors.name && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                    >
+                      <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                      {formErrors.name}
+                    </motion.p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
                   <input
                     type="email"
-                    required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg glass border border-white/10 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors"
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (formErrors.email) setFormErrors({ ...formErrors, email: '' });
+                    }}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.email ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                     placeholder="your@email.com"
                   />
+                  {formErrors.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                    >
+                      <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                      {formErrors.email}
+                    </motion.p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Service Type</label>
                   <select
-                    required
                     value={formData.serviceType}
-                    onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg glass border border-white/10 bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-colors"
+                    onChange={(e) => {
+                      setFormData({ ...formData, serviceType: e.target.value });
+                      if (formErrors.serviceType) setFormErrors({ ...formErrors, serviceType: '' });
+                    }}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.serviceType ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                   >
                     <option value="">Select a service</option>
                     {SERVICE_TYPES.map((service) => (
                       <option key={service} value={service}>{service}</option>
                     ))}
                   </select>
+                  {formErrors.serviceType && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                    >
+                      <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                      {formErrors.serviceType}
+                    </motion.p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Budget Range</label>
                   <select
-                    required
                     value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg glass border border-white/10 bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-colors"
+                    onChange={(e) => {
+                      setFormData({ ...formData, budget: e.target.value });
+                      if (formErrors.budget) setFormErrors({ ...formErrors, budget: '' });
+                    }}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.budget ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
                   >
                     <option value="">Select budget range</option>
-                    <option value="< $5,000">Less than $5,000</option>
-                    <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                    <option value="$10,000 - $25,000">$10,000 - $25,000</option>
-                    <option value="$25,000 - $50,000">$25,000 - $50,000</option>
-                    <option value="> $50,000">More than $50,000</option>
+                    <option value="< $1,000 (₹83,000)">Less than $1,000 (₹83,000)</option>
+                    <option value="$1,000 - $3,000 (₹83K - ₹2.5L)">$1,000 - $3,000 (₹83K - ₹2.5L)</option>
+                    <option value="$3,000 - $5,000 (₹2.5L - ₹4.2L)">$3,000 - $5,000 (₹2.5L - ₹4.2L)</option>
+                    <option value="$5,000 - $10,000 (₹4.2L - ₹8.3L)">$5,000 - $10,000 (₹4.2L - ₹8.3L)</option>
+                    <option value="> $10,000 (₹8.3L+)">More than $10,000 (₹8.3L+)</option>
                   </select>
+                  {formErrors.budget && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                    >
+                      <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                      {formErrors.budget}
+                    </motion.p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
                   <textarea
-                    required
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      if (formErrors.message) setFormErrors({ ...formErrors, message: '' });
+                    }}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg glass border border-white/10 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors resize-none"
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.message ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all resize-none`}
                     placeholder="Tell us about your project..."
                   />
+                  {formErrors.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-400 text-sm mt-1 flex items-center gap-1"
+                    >
+                      <span className="inline-block w-1 h-1 rounded-full bg-red-400"></span>
+                      {formErrors.message}
+                    </motion.p>
+                  )}
                 </div>
 
                 <button
