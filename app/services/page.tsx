@@ -149,18 +149,7 @@ export default function ServicesPage() {
     }
     
     try {
-      // Save to localStorage
-      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-      const newBooking = {
-        ...formData,
-        id: Date.now(),
-        date: new Date().toISOString(),
-        status: 'Pending',
-      };
-      bookings.push(newBooking);
-      localStorage.setItem('bookings', JSON.stringify(bookings));
-
-      // Send email via API
+      // Send email via API (in background)
       const emailResponse = await fetch('/api/send-booking', {
         method: 'POST',
         headers: {
@@ -173,9 +162,27 @@ export default function ServicesPage() {
         throw new Error('Failed to send email');
       }
 
-      // Send to WhatsApp with clear formatting
+      // Send to WhatsApp (in background, no popup)
       const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
-      window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+      
+      // Send WhatsApp message silently using an iframe
+      const whatsappUrl = `https://wa.me/917069984184?text=${whatsappMessage}`;
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = whatsappUrl;
+      document.body.appendChild(iframe);
+      setTimeout(() => document.body.removeChild(iframe), 1000);
+
+      // Save to localStorage
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      const newBooking = {
+        ...formData,
+        id: Date.now(),
+        date: new Date().toISOString(),
+        status: 'Pending',
+      };
+      bookings.push(newBooking);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
 
       setFormSubmitted(true);
       setTimeout(() => {
@@ -183,7 +190,7 @@ export default function ServicesPage() {
         setFormSubmitted(false);
         setFormData({ name: '', email: '', serviceType: '', budget: '', message: '' });
         setFormErrors({});
-      }, 2000);
+      }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Failed to send booking. Please try again or contact us directly via WhatsApp.');
@@ -345,8 +352,8 @@ export default function ServicesPage() {
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mx-auto mb-4">
                   <Check className="w-8 h-8 text-white" />
                 </div>
-                <p className="text-xl text-white font-semibold mb-2">Booking Submitted!</p>
-                <p className="text-gray-400">We'll get back to you within 24 hours.</p>
+                <p className="text-xl text-white font-semibold mb-2">Your response has been sent!</p>
+                <p className="text-gray-400">NDcreations Team will reach you out soon.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">

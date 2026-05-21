@@ -34,12 +34,7 @@ export default function ContactPage() {
     if (!validateForm()) return;
 
     try {
-      // Save to localStorage
-      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-      contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-
-      // Send email via API
+      // Send email via API (in background)
       const emailResponse = await fetch('/api/send-contact', {
         method: 'POST',
         headers: {
@@ -52,16 +47,28 @@ export default function ContactPage() {
         throw new Error('Failed to send email');
       }
 
-      // Send to WhatsApp with clear formatting
+      // Send to WhatsApp (in background, no popup)
       const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
-      window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
+      
+      // Send WhatsApp message silently using an iframe
+      const whatsappUrl = `https://wa.me/917069984184?text=${whatsappMessage}`;
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = whatsappUrl;
+      document.body.appendChild(iframe);
+      setTimeout(() => document.body.removeChild(iframe), 1000);
+
+      // Save to localStorage
+      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+      contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
+      localStorage.setItem('contacts', JSON.stringify(contacts));
 
       setFormSubmitted(true);
       setTimeout(() => {
         setFormSubmitted(false);
         setFormData({ name: '', email: '', subject: '', message: '' });
         setErrors({});
-      }, 3000);
+      }, 4000);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Failed to send message. Please try again or contact us directly via WhatsApp.');
@@ -111,8 +118,8 @@ export default function ContactPage() {
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mx-auto mb-4">
                     <Check className="w-10 h-10 text-white" />
                   </div>
-                  <p className="text-2xl text-white font-semibold mb-2">Message Sent!</p>
-                  <p className="text-gray-400">We'll respond within 24 hours.</p>
+                  <p className="text-2xl text-white font-semibold mb-2">Your response has been sent!</p>
+                  <p className="text-gray-400">NDcreations Team will reach you out soon.</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
