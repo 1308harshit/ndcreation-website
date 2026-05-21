@@ -38,14 +38,14 @@ export default function ContactPage() {
     contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
     localStorage.setItem('contacts', JSON.stringify(contacts));
 
-    // Send to WhatsApp
-    const whatsappMessage = `*New Contact Form Submission*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
+    // Send to WhatsApp with clear formatting
+    const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
     window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
 
-    // Send to Email (using mailto)
-    const emailSubject = `Contact Form: ${formData.subject}`;
-    const emailBody = `Name: ${formData.name}%0AEmail: ${formData.email}%0ASubject: ${formData.subject}%0A%0AMessage:%0A${formData.message}`;
-    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+    // Send to Email with clear formatting
+    const emailSubject = `[NDcreations Website] New Contact: ${formData.subject} - From ${formData.name}`;
+    const emailBody = `NEW MESSAGE FROM NDCREATIONS WEBSITE%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A%0ASENDER INFORMATION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AName: ${formData.name}%0AEmail: ${formData.email}%0A%0AREPLY TO: ${formData.email}%0A%0ASUBJECT:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.subject}%0A%0AMESSAGE:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0ATimestamp: ${new Date().toLocaleString()}%0ASource: NDcreations Contact Form%0AWebsite: https://ndcreation-website.vercel.app`;
+    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}&reply-to=${formData.email}`, '_blank');
 
     setFormSubmitted(true);
     setTimeout(() => {

@@ -159,14 +159,14 @@ export default function ServicesPage() {
     bookings.push(newBooking);
     localStorage.setItem('bookings', JSON.stringify(bookings));
 
-    // Send to WhatsApp
-    const whatsappMessage = `*New Service Booking*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Service:* ${formData.serviceType}%0A*Budget:* ${formData.budget}%0A*Message:* ${formData.message}`;
+    // Send to WhatsApp with clear formatting
+    const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
     window.open(`https://wa.me/917069984184?text=${whatsappMessage}`, '_blank');
 
-    // Send to Email (using mailto)
-    const emailSubject = `Service Booking: ${formData.serviceType}`;
-    const emailBody = `Name: ${formData.name}%0AEmail: ${formData.email}%0AService: ${formData.serviceType}%0ABudget: ${formData.budget}%0A%0AMessage:%0A${formData.message}`;
-    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+    // Send to Email with clear formatting
+    const emailSubject = `[NDcreations Website] New Service Booking: ${formData.serviceType} - From ${formData.name}`;
+    const emailBody = `NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A%0ACLIENT INFORMATION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AName: ${formData.name}%0AEmail: ${formData.email}%0A%0AREPLY TO: ${formData.email}%0A%0ASERVICE DETAILS:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0AService Type: ${formData.serviceType}%0ABudget Range: ${formData.budget}%0A%0APROJECT DESCRIPTION:%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━%0ATimestamp: ${new Date().toLocaleString()}%0ASource: NDcreations Service Booking Form%0AWebsite: https://ndcreation-website.vercel.app`;
+    window.open(`mailto:ndcreation139@gmail.com?subject=${emailSubject}&body=${emailBody}&reply-to=${formData.email}`, '_blank');
 
     setFormSubmitted(true);
     setTimeout(() => {
