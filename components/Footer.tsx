@@ -147,13 +147,10 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4"
+          className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-center gap-4"
         >
           <p className="text-sm text-gray-500">
             © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
-          </p>
-          <p className="text-sm text-gray-500">
-            Built with <span className="text-red-500">♥</span> using Next.js, React & AI
           </p>
         </motion.div>
       </div>
