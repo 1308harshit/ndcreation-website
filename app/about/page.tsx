@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import AnimatedCursor from '@/components/AnimatedCursor';
+import ParticleSystem from '@/components/ParticleSystem';
 import { Sparkles, Target, Zap, Users, Award, Rocket } from 'lucide-react';
 
 export default function AboutPage() {
@@ -12,6 +13,7 @@ export default function AboutPage() {
     <>
       <SmoothScroll />
       <AnimatedCursor />
+      <ParticleSystem particleCount={40} />
       <Navbar />
       
       <main className="min-h-screen bg-[var(--deep-navy)] pt-32 pb-20">
@@ -27,7 +29,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-block px-4 py-2 rounded-full glass border border-white/10 text-sm text-[var(--neon-cyan)] mb-4"
+              className="inline-block px-4 py-2 rounded-full glass border border-[#B026FF]/30 text-sm text-[#FF006E] mb-4 animate-pulse-glow"
             >
               About Us
             </motion.span>
@@ -52,7 +54,7 @@ export default function AboutPage() {
           >
             <div className="glass rounded-3xl p-8 md:p-12 border border-white/10">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center glow-purple">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">Our Story</h2>
@@ -83,14 +85,14 @@ export default function AboutPage() {
               <div className="flex flex-col md:flex-row items-center gap-8">
                 {/* Founder Avatar */}
                 <div className="relative">
-                  <div className="w-48 h-48 rounded-2xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center">
+                  <div className="w-48 h-48 rounded-2xl bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center glow-purple">
                     <div className="w-44 h-44 rounded-xl bg-[var(--deep-navy)] flex items-center justify-center">
-                      <span className="text-6xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent">
+                      <span className="text-6xl font-bold bg-gradient-to-r from-[#B026FF] to-[#FF006E] bg-clip-text text-transparent">
                         DS
                       </span>
                     </div>
                   </div>
-                  <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center">
+                  <div className="absolute -bottom-2 -right-2 w-16 h-16 rounded-xl bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center glow-purple">
                     <Award className="w-8 h-8 text-white" />
                   </div>
                 </div>
@@ -98,7 +100,7 @@ export default function AboutPage() {
                 {/* Founder Info */}
                 <div className="flex-1 text-center md:text-left">
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Daksh Sutariya</h3>
-                  <p className="text-xl text-[var(--neon-cyan)] mb-4">Founder & CEO</p>
+                  <p className="text-xl text-[#FF006E] mb-4">Founder & CEO</p>
                   <p className="text-gray-300 text-lg leading-relaxed mb-4">
                     Daksh Sutariya is the visionary founder behind NDcreations. With a passion for technology 
                     and innovation, Daksh leads the company with a mission to create world-class digital solutions 

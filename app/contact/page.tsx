@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import AnimatedCursor from '@/components/AnimatedCursor';
+import ParticleSystem from '@/components/ParticleSystem';
 import { Mail, Phone, MapPin, Send, Check, Github, Linkedin, Twitter, Instagram } from 'lucide-react';
 
 export default function ContactPage() {
@@ -44,16 +45,31 @@ export default function ContactPage() {
       });
 
       if (!emailResponse.ok) {
+        const errorData = await emailResponse.json();
+        console.error('Email API Error:', errorData);
         throw new Error('Failed to send email');
       }
 
-      // Prepare WhatsApp message
-      const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
+      const emailResult = await emailResponse.json();
+      console.log('✅ Email sent successfully:', emailResult);
+
+      // Prepare WhatsApp message (simplified format for WhatsApp)
+      const whatsappMessage = `🌐 NEW MESSAGE - NDCREATIONS
+
+👤 From: ${formData.name}
+📧 Email: ${formData.email}
+📋 Subject: ${formData.subject}
+
+💬 Message:
+${formData.message}
+
+📅 Sent: ${new Date().toLocaleString()}`;
       
-      // Log WhatsApp message for manual sending
-      console.log('📱 WhatsApp Message Ready:');
-      console.log(`https://wa.me/917069984184?text=${whatsappMessage}`);
-      console.log('\n📧 Email sent successfully to ndcreation139@gmail.com');
+      const whatsappUrl = `https://wa.me/917069984184?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Auto-open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      console.log('📱 WhatsApp opened automatically');
 
       // Save to localStorage
       const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
@@ -61,7 +77,7 @@ export default function ContactPage() {
         ...formData, 
         id: Date.now(), 
         date: new Date().toISOString(),
-        whatsappUrl: `https://wa.me/917069984184?text=${whatsappMessage}`
+        whatsappUrl
       });
       localStorage.setItem('contacts', JSON.stringify(contacts));
 
@@ -81,6 +97,7 @@ export default function ContactPage() {
     <>
       <SmoothScroll />
       <AnimatedCursor />
+      <ParticleSystem particleCount={40} />
       <Navbar />
       
       <main className="min-h-screen bg-[var(--deep-navy)] pt-32 pb-20">
@@ -117,7 +134,7 @@ export default function ContactPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-12"
                 >
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mx-auto mb-4">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center mx-auto mb-4 glow-purple">
                     <Check className="w-10 h-10 text-white" />
                   </div>
                   <p className="text-2xl text-white font-semibold mb-2">Your response has been sent!</p>
@@ -134,7 +151,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, name: e.target.value });
                         if (errors.name) setErrors({ ...errors, name: '' });
                       }}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.name ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.name ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] focus:glow-pink transition-all`}
                       placeholder="Your name"
                     />
                     {errors.name && (
@@ -158,7 +175,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, email: e.target.value });
                         if (errors.email) setErrors({ ...errors, email: '' });
                       }}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.email ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.email ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] focus:glow-pink transition-all`}
                       placeholder="your@email.com"
                     />
                     {errors.email && (
@@ -182,7 +199,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, subject: e.target.value });
                         if (errors.subject) setErrors({ ...errors, subject: '' });
                       }}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.subject ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.subject ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] focus:glow-pink transition-all`}
                       placeholder="How can we help?"
                     />
                     {errors.subject && (
@@ -206,7 +223,7 @@ export default function ContactPage() {
                         if (errors.message) setErrors({ ...errors, message: '' });
                       }}
                       rows={6}
-                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.message ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all resize-none`}
+                      className={`w-full px-4 py-3 rounded-lg glass border ${errors.message ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] focus:glow-pink transition-all resize-none`}
                       placeholder="Tell us about your project..."
                     />
                     {errors.message && (
@@ -223,7 +240,7 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white font-semibold hover:scale-105 transition-transform"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white font-semibold hover:scale-105 transition-transform animate-pulse-glow"
                   >
                     <Send className="w-5 h-5" />
                     Send Message
@@ -244,31 +261,31 @@ export default function ContactPage() {
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center flex-shrink-0 glow-purple">
                       <Mail className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <p className="text-sm text-gray-400 mb-1">Email</p>
-                      <a href="mailto:ndcreation139@gmail.com" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
+                      <a href="mailto:ndcreation139@gmail.com" className="text-white hover:text-[#FF006E] transition-colors">
                         ndcreation139@gmail.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center flex-shrink-0 glow-purple">
                       <Phone className="w-6 h-6 text-white" />
                     </div>
                     <div>
                       <p className="text-sm text-gray-400 mb-1">WhatsApp</p>
-                      <a href="https://wa.me/917069984184" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[var(--neon-cyan)] transition-colors">
+                      <a href="https://wa.me/917069984184" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#FF006E] transition-colors">
                         +91 7069984184
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center flex-shrink-0 glow-purple">
                       <MapPin className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -295,7 +312,7 @@ export default function ContactPage() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 rounded-lg glass border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-[var(--electric-blue)] hover:bg-[var(--electric-blue)]/10 transition-all"
+                      className="w-12 h-12 rounded-lg glass border border-[#B026FF]/30 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#FF006E] hover:bg-[#B026FF]/10 transition-all glow-purple"
                     >
                       <social.icon className="w-6 h-6" />
                     </motion.a>
@@ -305,7 +322,7 @@ export default function ContactPage() {
 
               <div className="glass rounded-2xl p-8 border border-white/10">
                 <h3 className="text-xl font-bold text-white mb-4">Response Time</h3>
-                <p className="text-gray-400">We typically respond within <span className="text-[var(--neon-cyan)] font-semibold">24 hours</span> during business days.</p>
+                <p className="text-gray-400">We typically respond within <span className="text-[#FF006E] font-semibold">24 hours</span> during business days.</p>
               </div>
             </motion.div>
           </div>

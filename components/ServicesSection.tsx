@@ -79,10 +79,10 @@ export default function ServicesSection() {
       {/* Background */}
       <div className="absolute inset-0 bg-[var(--charcoal-black)]" />
       
-      {/* Animated Grid Background */}
+      {/* Animated Grid Background - Purple/Pink */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(var(--electric-blue) 1px, transparent 1px), linear-gradient(90deg, var(--electric-blue) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#B026FF 1px, transparent 1px), linear-gradient(90deg, #B026FF 1px, transparent 1px)`,
           backgroundSize: '50px 50px',
         }} />
       </div>
@@ -100,7 +100,7 @@ export default function ServicesSection() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full glass border border-white/10 text-sm text-[var(--neon-cyan)] mb-4"
+            className="inline-block px-4 py-2 rounded-full glass border border-[#B026FF]/30 text-sm text-[#FF006E] mb-4 animate-pulse-glow"
           >
             Our Services
           </motion.span>
@@ -114,8 +114,8 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Services Grid - Angular Gaming Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.id}
@@ -123,76 +123,81 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              className="group relative glass rounded-2xl p-6 border border-white/10 overflow-hidden cursor-pointer"
+              whileHover={{ scale: 1.08, y: -10 }}
+              className="group relative"
             >
-              {/* Animated Border Glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--electric-blue)] via-[var(--neon-cyan)] to-[var(--electric-blue)] animate-pulse" 
-                     style={{ padding: '1px', borderRadius: '1rem' }}>
-                  <div className="w-full h-full bg-[var(--charcoal-black)] rounded-2xl" />
+              {/* Angular Card with Scanlines */}
+              <div className="relative card-angular-simple glass p-8 border-2 border-[#B026FF]/40 overflow-hidden hover:border-[#FF006E] transition-all duration-300 scanlines cursor-pointer">
+                {/* Intense Glow on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#B026FF]/40 to-[#FF006E]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-2xl" />
+                
+                {/* Holographic Shine Effect */}
+                <div className="absolute inset-0 holographic opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                <div className="relative z-10">
+                  {/* Icon - Angular with Rotation */}
+                  <motion.div
+                    whileHover={{ rotate: 360, scale: 1.3 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-20 h-20 mb-6 card-angular-simple bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center glow-purple"
+                  >
+                    <service.icon className="w-10 h-10 text-white" />
+                  </motion.div>
+
+                  {/* Service Name - Gaming Font */}
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-neon-pink transition-colors uppercase tracking-wide">
+                    {service.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm text-gray-400 mb-6 leading-relaxed">
+                    {service.description}
+                  </p>
+
+                  {/* Features List - Angular Bullets */}
+                  <ul className="space-y-3 mb-6">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-3 text-xs text-gray-300">
+                        <div className="w-2 h-2 card-angular-simple bg-gradient-to-br from-[#B026FF] to-[#FF006E]" />
+                        <span className="uppercase tracking-wide">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Book Service Button - Angular */}
+                  <Link
+                    href={`https://wa.me/917069984184?text=Hi, I'm interested in ${encodeURIComponent(service.name)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 card-angular-simple bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white text-sm font-bold uppercase tracking-wider hover:scale-110 transition-all animate-pulse-glow hover:animate-glitch"
+                  >
+                    Book Now
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  </Link>
                 </div>
-              </div>
 
-              <div className="relative z-10">
-                {/* Icon with Glow */}
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                  className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mb-4 shadow-lg shadow-[var(--electric-blue)]/50"
-                >
-                  <service.icon className="w-7 h-7 text-white" />
-                </motion.div>
-
-                {/* Service Name */}
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[var(--neon-cyan)] transition-colors">
-                  {service.name}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-gray-400 mb-4">
-                  {service.description}
-                </p>
-
-                {/* Features List */}
-                <ul className="space-y-2 mb-4">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-gray-500">
-                      <div className="w-1 h-1 rounded-full bg-[var(--neon-cyan)]" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Book Service Button */}
-                <Link
-                  href={`https://wa.me/917069984184?text=Hi, I'm interested in ${encodeURIComponent(service.name)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-medium text-[var(--electric-blue)] group-hover:text-[var(--neon-cyan)] transition-colors"
-                >
-                  Book Service
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                {/* Corner Accents */}
+                <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-[#FF006E] opacity-50 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-[#B026FF] opacity-50 group-hover:opacity-100 transition-opacity" />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA - Angular Gaming Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+          className="text-center mt-16"
         >
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white font-semibold hover:scale-105 transition-transform shadow-lg shadow-[var(--electric-blue)]/50"
+            className="inline-flex items-center gap-3 px-12 py-5 card-angular-simple bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white font-bold text-lg uppercase tracking-wider hover:scale-110 transition-all animate-pulse-glow hover:animate-glitch"
           >
             Explore All Services
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-6 h-6" />
           </Link>
         </motion.div>
       </div>

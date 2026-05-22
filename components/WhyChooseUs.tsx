@@ -48,7 +48,19 @@ export default function WhyChooseUs() {
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute top-1/4 right-10 w-64 h-64 bg-[var(--electric-blue)] rounded-full blur-3xl"
+        className="absolute top-1/4 right-10 w-64 h-64 bg-[#B026FF] rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.15, 0.3, 0.15],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="absolute bottom-1/4 left-10 w-80 h-80 bg-[#FF006E] rounded-full blur-3xl"
       />
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +76,7 @@ export default function WhyChooseUs() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full glass border border-white/10 text-sm text-[var(--neon-cyan)] mb-4"
+            className="inline-block px-4 py-2 rounded-full glass border border-[#B026FF]/30 text-sm text-[#FF006E] mb-4"
           >
             Why Choose Us
           </motion.span>
@@ -78,7 +90,7 @@ export default function WhyChooseUs() {
           </p>
         </motion.div>
 
-        {/* Reasons Grid */}
+        {/* Reasons Grid - Angular Gaming Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {reasons.map((reason, index) => (
             <motion.div
@@ -87,37 +99,47 @@ export default function WhyChooseUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="group relative glass rounded-2xl p-8 border border-white/10 text-center"
+              whileHover={{ y: -15, scale: 1.05 }}
+              className="group relative"
             >
-              {/* Glow Effect on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--electric-blue)]/20 to-[var(--neon-cyan)]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+              {/* Angular Card */}
+              <div className="relative card-angular-simple glass p-8 border-2 border-[#B026FF]/40 text-center overflow-hidden hover:border-[#FF006E] transition-all duration-300 scanlines">
+                {/* Glow Effect on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#B026FF]/30 to-[#FF006E]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl" />
+                
+                {/* Holographic Effect */}
+                <div className="absolute inset-0 holographic opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-              <div className="relative z-10">
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                  className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center shadow-lg shadow-[var(--electric-blue)]/50"
-                >
-                  <reason.icon className="w-8 h-8 text-white" />
-                </motion.div>
+                <div className="relative z-10">
+                  {/* Icon - Angular with Rotation */}
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-20 h-20 mx-auto mb-6 card-angular-simple bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center shadow-lg glow-purple"
+                  >
+                    <reason.icon className="w-10 h-10 text-white" />
+                  </motion.div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[var(--neon-cyan)] transition-colors">
-                  {reason.title}
-                </h3>
+                  {/* Title - Gaming Font */}
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-neon-pink transition-colors uppercase tracking-wide">
+                    {reason.title}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-sm text-gray-400">
-                  {reason.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    {reason.description}
+                  </p>
+                </div>
+
+                {/* Corner Accents */}
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#FF006E] opacity-50 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#B026FF] opacity-50 group-hover:opacity-100 transition-opacity" />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Stats Counter */}
+        {/* Stats Counter - Angular Cards */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -137,12 +159,13 @@ export default function WhyChooseUs() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-              className="text-center"
+              whileHover={{ scale: 1.1, y: -5 }}
+              className="relative card-angular-simple glass p-6 border-2 border-[#B026FF]/40 text-center hover:border-[#FF006E] transition-all glow-purple"
             >
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent mb-2">
+              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#B026FF] to-[#FF006E] bg-clip-text text-transparent mb-2 uppercase">
                 {stat.value}
               </div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-sm text-gray-400 uppercase tracking-wider">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>

@@ -1,0 +1,3 @@
+# Spec Configuration
+workflow: bugfix
+name: fix-form-submission

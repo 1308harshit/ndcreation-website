@@ -97,7 +97,7 @@ export default function Testimonials() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full glass border border-white/10 text-sm text-[var(--neon-cyan)] mb-4"
+            className="inline-block px-4 py-2 rounded-full glass border border-[#B026FF]/30 text-sm text-[#FF006E] mb-4"
           >
             Testimonials
           </motion.span>
@@ -140,52 +140,59 @@ export default function Testimonials() {
                 }}
                 className="absolute w-full"
               >
-                <div className="glass rounded-3xl p-8 md:p-12 border border-white/10 relative">
+                <div className="relative card-angular-simple glass p-8 md:p-12 border-2 border-[#B026FF]/40 scanlines hover:border-[#FF006E] transition-all">
                   {/* Quote Icon */}
                   <div className="absolute top-8 right-8 opacity-20">
-                    <Quote className="w-16 h-16 text-[var(--neon-cyan)]" />
+                    <Quote className="w-20 h-20 text-[#B026FF]" />
                   </div>
+
+                  {/* Holographic Effect */}
+                  <div className="absolute inset-0 holographic opacity-30" />
 
                   <div className="relative z-10">
                     {/* Quote */}
-                    <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+                    <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed font-medium">
                       "{testimonials[currentIndex].quote}"
                     </p>
 
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center text-white font-bold text-xl">
+                      <div className="w-20 h-20 card-angular-simple bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center text-white font-bold text-2xl glow-purple">
                         {testimonials[currentIndex].name.charAt(0)}
                       </div>
                       <div>
-                        <div className="font-bold text-white text-lg">
+                        <div className="font-bold text-white text-xl uppercase tracking-wide">
                           {testimonials[currentIndex].name}
                         </div>
-                        <div className="text-gray-400 text-sm">
+                        <div className="text-gray-400 text-sm uppercase tracking-wider">
                           {testimonials[currentIndex].role} at {testimonials[currentIndex].company}
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Corner Accents */}
+                  <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-[#FF006E] opacity-50" />
+                  <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-[#B026FF] opacity-50" />
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Angular */}
           <button
             onClick={() => paginate(-1)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 rounded-full glass border border-white/20 flex items-center justify-center text-white hover:bg-[var(--electric-blue)] hover:border-[var(--electric-blue)] transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-14 h-14 card-angular-simple glass border-2 border-white/20 flex items-center justify-center text-white hover:bg-[#B026FF] hover:border-[#B026FF] transition-all glow-purple"
             aria-label="Previous testimonial"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-7 h-7" />
           </button>
           <button
             onClick={() => paginate(1)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 rounded-full glass border border-white/20 flex items-center justify-center text-white hover:bg-[var(--electric-blue)] hover:border-[var(--electric-blue)] transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-14 h-14 card-angular-simple glass border-2 border-white/20 flex items-center justify-center text-white hover:bg-[#B026FF] hover:border-[#B026FF] transition-all glow-purple"
             aria-label="Next testimonial"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-7 h-7" />
           </button>
 
           {/* Dots Indicator */}
@@ -199,7 +206,7 @@ export default function Testimonials() {
                 }}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)]'
+                    ? 'w-8 bg-gradient-to-r from-[#B026FF] to-[#FF006E]'
                     : 'bg-white/30 hover:bg-white/50'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}

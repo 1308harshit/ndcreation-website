@@ -35,23 +35,23 @@ export default function Hero() {
         <Scene3D />
       </div>
 
-      {/* Floating Gradient Orbs */}
+      {/* Floating Gradient Orbs - Purple/Pink */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
+          opacity: [0.4, 0.6, 0.4],
         }}
         transition={{
           duration: 8,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute top-20 left-10 w-96 h-96 bg-[var(--electric-blue)] rounded-full blur-3xl opacity-30"
+        className="absolute top-20 left-10 w-96 h-96 bg-[#B026FF] rounded-full blur-3xl opacity-40"
       />
       <motion.div
         animate={{
           scale: [1, 1.3, 1],
-          opacity: [0.3, 0.5, 0.3],
+          opacity: [0.4, 0.6, 0.4],
         }}
         transition={{
           duration: 10,
@@ -59,7 +59,20 @@ export default function Hero() {
           ease: 'easeInOut',
           delay: 1,
         }}
-        className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--neon-cyan)] rounded-full blur-3xl opacity-30"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-[#FF006E] rounded-full blur-3xl opacity-40"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.4, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 2,
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#EC4899] rounded-full blur-3xl opacity-30"
       />
 
       {/* Content */}
@@ -68,9 +81,9 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10"
+          className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#B026FF]/30 animate-pulse-glow"
         >
-          <Sparkles className="w-4 h-4 text-[var(--neon-cyan)]" />
+          <Sparkles className="w-4 h-4 text-[#FF006E]" />
           <span className="text-sm text-gray-300">Welcome to the Future</span>
         </motion.div>
 
@@ -88,9 +101,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-6"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-6 animate-glitch-infinite"
         >
-          <span className="bg-gradient-to-r from-white via-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-white via-[#B026FF] to-[#FF006E] bg-clip-text text-transparent text-neon-purple">
             {BRAND.name}
           </span>
         </motion.h1>
@@ -129,20 +142,20 @@ export default function Hero() {
         >
           <Link
             href="/products"
-            className="group relative px-8 py-4 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white font-semibold overflow-hidden transition-all hover:scale-105 hover:shadow-lg hover:shadow-[var(--electric-blue)]/50"
+            className="group relative px-8 py-4 rounded-lg bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white font-semibold overflow-hidden transition-all hover:scale-105 animate-pulse-glow"
           >
             <span className="relative z-10">Explore Products</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--electric-blue)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF006E] to-[#B026FF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Link>
           
           <Link
             href={`https://wa.me/${BRAND.whatsapp.replace(/\+/g, '')}?text=Hi, I'm interested in booking a service`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative px-8 py-4 rounded-lg glass border border-white/20 text-white font-semibold overflow-hidden transition-all hover:scale-105 hover:border-[var(--electric-blue)]"
+            className="group relative px-8 py-4 rounded-lg glass border border-[#B026FF]/50 text-white font-semibold overflow-hidden transition-all hover:scale-105 hover:border-[#FF006E] glow-purple"
           >
             <span className="relative z-10">Book a Service</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--electric-blue)]/10 to-[var(--neon-cyan)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#B026FF]/20 to-[#FF006E]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Link>
         </motion.div>
 
@@ -162,9 +175,9 @@ export default function Hero() {
             <motion.div
               key={index}
               whileHover={{ scale: 1.05 }}
-              className="glass rounded-lg p-6 border border-white/10"
+              className="glass rounded-lg p-6 border border-[#B026FF]/30 glow-purple"
             >
-              <div className="text-3xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent mb-2">
+              <div className="text-3xl font-bold bg-gradient-to-r from-[#B026FF] to-[#FF006E] bg-clip-text text-transparent mb-2">
                 {stat.value}
               </div>
               <div className="text-sm text-gray-400">{stat.label}</div>

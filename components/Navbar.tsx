@@ -40,11 +40,11 @@ export default function Navbar() {
                 whileTap={{ scale: 0.95 }}
                 className="relative"
               >
-                <span className="text-2xl font-bold bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] bg-clip-text text-transparent">
+                <span className="text-2xl font-bold bg-gradient-to-r from-[#B026FF] to-[#FF006E] bg-clip-text text-transparent">
                   {BRAND.name}
                 </span>
                 <motion.div
-                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)]"
+                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-[#B026FF] to-[#FF006E]"
                   initial={{ width: 0 }}
                   whileHover={{ width: '100%' }}
                   transition={{ duration: 0.3 }}
@@ -66,7 +66,7 @@ export default function Navbar() {
                     className="relative text-sm font-medium text-gray-300 hover:text-white transition-colors group"
                   >
                     {link.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] group-hover:w-full transition-all duration-300" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#B026FF] to-[#FF006E] group-hover:w-full transition-all duration-300 glow-purple" />
                   </Link>
                 </motion.div>
               ))}
@@ -81,10 +81,10 @@ export default function Navbar() {
             >
               <Link
                 href="/contact"
-                className="relative px-6 py-2.5 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white font-medium overflow-hidden group"
+                className="relative px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white font-medium overflow-hidden group animate-pulse-glow"
               >
                 <span className="relative z-10">Get Started</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--electric-blue)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FF006E] to-[#B026FF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </motion.div>
 

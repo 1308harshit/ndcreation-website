@@ -32,14 +32,14 @@ function AnimatedSphere() {
         onPointerOut={() => setHovered(false)}
       >
         <MeshDistortMaterial
-          color="#0066ff"
+          color="#B026FF"
           attach="material"
-          distort={0.5}
-          speed={2}
+          distort={0.6}
+          speed={2.5}
           roughness={0.1}
-          metalness={0.9}
-          emissive="#00d9ff"
-          emissiveIntensity={0.6}
+          metalness={0.95}
+          emissive="#FF006E"
+          emissiveIntensity={0.8}
         />
       </Sphere>
     </Float>
@@ -71,10 +71,10 @@ function Particles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.015}
-        color="#00d9ff"
+        size={0.02}
+        color="#FF006E"
         transparent
-        opacity={0.7}
+        opacity={0.8}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />
@@ -100,12 +100,12 @@ function FloatingRings() {
   return (
     <>
       <mesh ref={ring1Ref}>
-        <torusGeometry args={[2, 0.02, 16, 100]} />
-        <meshBasicMaterial color="#0066ff" transparent opacity={0.3} />
+        <torusGeometry args={[2, 0.03, 16, 100]} />
+        <meshBasicMaterial color="#B026FF" transparent opacity={0.4} />
       </mesh>
       <mesh ref={ring2Ref}>
-        <torusGeometry args={[2.5, 0.02, 16, 100]} />
-        <meshBasicMaterial color="#00d9ff" transparent opacity={0.2} />
+        <torusGeometry args={[2.5, 0.03, 16, 100]} />
+        <meshBasicMaterial color="#FF006E" transparent opacity={0.3} />
       </mesh>
     </>
   );
@@ -118,16 +118,17 @@ export default function Scene3D() {
       style={{ background: 'transparent' }}
       gl={{ antialias: true, alpha: true }}
     >
-      {/* Lighting */}
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} color="#0066ff" />
-      <pointLight position={[-10, -10, -10]} intensity={0.8} color="#00d9ff" />
+      {/* Lighting - Purple/Pink Gaming Theme */}
+      <ambientLight intensity={0.4} />
+      <pointLight position={[10, 10, 10]} intensity={2} color="#B026FF" />
+      <pointLight position={[-10, -10, -10]} intensity={1.5} color="#FF006E" />
+      <pointLight position={[0, 0, 10]} intensity={1} color="#EC4899" />
       <spotLight
         position={[0, 5, 0]}
         angle={0.3}
         penumbra={1}
-        intensity={1}
-        color="#00d9ff"
+        intensity={1.5}
+        color="#FF006E"
       />
       
       {/* Stars background */}

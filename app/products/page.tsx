@@ -82,7 +82,7 @@ export default function ProductsPage() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-xl glass border border-white/10 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-colors"
+                className="w-full pl-12 pr-4 py-4 rounded-xl glass border border-[#B026FF]/30 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] focus:glow-pink transition-colors"
               />
             </div>
 
@@ -94,8 +94,8 @@ export default function ProductsPage() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-6 py-3 rounded-lg font-medium transition-all ${
                     selectedCategory === category
-                      ? 'bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white'
-                      : 'glass border border-white/10 text-gray-300 hover:border-[var(--electric-blue)]'
+                      ? 'bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white animate-pulse-glow'
+                      : 'glass border border-[#B026FF]/30 text-gray-300 hover:border-[#FF006E]'
                   }`}
                 >
                   {category}

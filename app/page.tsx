@@ -7,12 +7,14 @@ import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 import SmoothScroll from '@/components/SmoothScroll';
 import AnimatedCursor from '@/components/AnimatedCursor';
+import ParticleSystem from '@/components/ParticleSystem';
 
 export default function Home() {
   return (
     <>
       <SmoothScroll />
       <AnimatedCursor />
+      <ParticleSystem particleCount={60} />
       <main className="relative">
         <Navbar />
         <Hero />

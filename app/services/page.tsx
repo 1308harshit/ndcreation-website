@@ -159,16 +159,32 @@ export default function ServicesPage() {
       });
 
       if (!emailResponse.ok) {
+        const errorData = await emailResponse.json();
+        console.error('Email API Error:', errorData);
         throw new Error('Failed to send email');
       }
 
-      // Prepare WhatsApp message
-      const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
+      const emailResult = await emailResponse.json();
+      console.log('✅ Email sent successfully:', emailResult);
+
+      // Prepare WhatsApp message (simplified format for WhatsApp)
+      const whatsappMessage = `💼 NEW SERVICE BOOKING - NDCREATIONS
+
+👤 From: ${formData.name}
+📧 Email: ${formData.email}
+💼 Service: ${formData.serviceType}
+💰 Budget: ${formData.budget}
+
+💬 Project Details:
+${formData.message}
+
+📅 Sent: ${new Date().toLocaleString()}`;
       
-      // Log WhatsApp message for manual sending
-      console.log('📱 WhatsApp Message Ready:');
-      console.log(`https://wa.me/917069984184?text=${whatsappMessage}`);
-      console.log('\n📧 Email sent successfully to ndcreation139@gmail.com');
+      const whatsappUrl = `https://wa.me/917069984184?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Auto-open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      console.log('📱 WhatsApp opened automatically');
 
       // Save to localStorage
       const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
@@ -177,7 +193,7 @@ export default function ServicesPage() {
         id: Date.now(),
         date: new Date().toISOString(),
         status: 'Pending',
-        whatsappUrl: `https://wa.me/917069984184?text=${whatsappMessage}`
+        whatsappUrl
       };
       bookings.push(newBooking);
       localStorage.setItem('bookings', JSON.stringify(bookings));
@@ -230,16 +246,16 @@ export default function ServicesPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.05 }}
                 whileHover={{ scale: 1.02 }}
-                className="group relative glass rounded-2xl p-8 border border-white/10 overflow-hidden"
+                className="group relative glass rounded-2xl p-8 border border-[#B026FF]/30 overflow-hidden hover:border-[#FF006E]/50 transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--electric-blue)]/10 to-[var(--neon-cyan)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#B026FF]/10 to-[#FF006E]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-purple">
                     <service.icon className="w-8 h-8 text-white" />
                   </div>
 
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[var(--neon-cyan)] transition-colors">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#FF006E] transition-colors">
                     {service.name}
                   </h3>
 
@@ -250,19 +266,19 @@ export default function ServicesPage() {
                   <ul className="space-y-2 mb-6">
                     {service.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
-                        <Check className="w-4 h-4 text-[var(--neon-cyan)] flex-shrink-0" />
+                        <Check className="w-4 h-4 text-[#FF006E] flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
                   </ul>
 
-                  <div className="text-lg font-bold text-[var(--electric-blue)] mb-4">
+                  <div className="text-lg font-bold text-[#FF006E] mb-4">
                     {service.pricing}
                   </div>
 
                   <button
                     onClick={() => handleBookService(service.name)}
-                    className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] text-white font-semibold hover:scale-105 transition-transform"
+                    className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-[#B026FF] to-[#FF006E] text-white font-semibold hover:scale-105 transition-transform animate-pulse-glow"
                   >
                     Book Service
                   </button>
@@ -347,7 +363,7 @@ export default function ServicesPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-8"
               >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--electric-blue)] to-[var(--neon-cyan)] flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#B026FF] to-[#FF006E] flex items-center justify-center mx-auto mb-4 glow-purple">
                   <Check className="w-8 h-8 text-white" />
                 </div>
                 <p className="text-xl text-white font-semibold mb-2">Your response has been sent!</p>
@@ -364,7 +380,7 @@ export default function ServicesPage() {
                       setFormData({ ...formData, name: e.target.value });
                       if (formErrors.name) setFormErrors({ ...formErrors, name: '' });
                     }}
-                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.name ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.name ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] transition-all`}
                     placeholder="Your name"
                   />
                   {formErrors.name && (
@@ -388,7 +404,7 @@ export default function ServicesPage() {
                       setFormData({ ...formData, email: e.target.value });
                       if (formErrors.email) setFormErrors({ ...formErrors, email: '' });
                     }}
-                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.email ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.email ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] transition-all`}
                     placeholder="your@email.com"
                   />
                   {formErrors.email && (
@@ -411,7 +427,7 @@ export default function ServicesPage() {
                       setFormData({ ...formData, serviceType: e.target.value });
                       if (formErrors.serviceType) setFormErrors({ ...formErrors, serviceType: '' });
                     }}
-                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.serviceType ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.serviceType ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white focus:outline-none focus:border-[#FF006E] transition-all`}
                   >
                     <option value="">Select a service</option>
                     {SERVICE_TYPES.map((service) => (
@@ -438,7 +454,7 @@ export default function ServicesPage() {
                       setFormData({ ...formData, budget: e.target.value });
                       if (formErrors.budget) setFormErrors({ ...formErrors, budget: '' });
                     }}
-                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.budget ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white focus:outline-none focus:border-[var(--electric-blue)] transition-all`}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.budget ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white focus:outline-none focus:border-[#FF006E] transition-all`}
                   >
                     <option value="">Select budget range</option>
                     <option value="< $1,000 (₹83,000)">Less than $1,000 (₹83,000)</option>
@@ -468,7 +484,7 @@ export default function ServicesPage() {
                       if (formErrors.message) setFormErrors({ ...formErrors, message: '' });
                     }}
                     rows={4}
-                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.message ? 'border-red-500 animate-shake' : 'border-white/10'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[var(--electric-blue)] transition-all resize-none`}
+                    className={`w-full px-4 py-3 rounded-lg glass border ${formErrors.message ? 'border-red-500 animate-shake' : 'border-[#B026FF]/30'} bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF006E] transition-all resize-none`}
                     placeholder="Tell us about your project..."
                   />
                   {formErrors.message && (

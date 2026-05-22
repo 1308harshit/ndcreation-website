@@ -24,10 +24,10 @@ const quickLinks = [
 export default function Footer() {
   return (
     <footer className="relative bg-[var(--charcoal-black)] border-t border-white/10 overflow-hidden">
-      {/* Subtle Grid Background */}
+      {/* Subtle Grid Background - Purple */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(var(--electric-blue) 1px, transparent 1px), linear-gradient(90deg, var(--electric-blue) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#B026FF 1px, transparent 1px), linear-gradient(90deg, #B026FF 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
         }} />
       </div>
@@ -104,19 +104,19 @@ export default function Footer() {
             <h3 className="text-white font-bold mb-4">Get in Touch</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-gray-400">
-                <Mail className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
+                <Mail className="w-5 h-5 text-[#FF006E] mt-0.5 flex-shrink-0" />
                 <a href={`mailto:${BRAND.email}`} className="hover:text-white transition-colors">
                   {BRAND.email}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
-                <Phone className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
+                <Phone className="w-5 h-5 text-[#FF006E] mt-0.5 flex-shrink-0" />
                 <a href={`https://wa.me/${BRAND.whatsapp.replace(/\+/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                   {BRAND.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-gray-400">
-                <MapPin className="w-5 h-5 text-[var(--neon-cyan)] mt-0.5 flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-[#FF006E] mt-0.5 flex-shrink-0" />
                 <span>Gujarat, India</span>
               </li>
             </ul>
@@ -131,7 +131,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-[var(--electric-blue)] hover:bg-[var(--electric-blue)]/10 transition-all"
+                  className="w-10 h-10 rounded-lg glass border border-[#B026FF]/30 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#FF006E] hover:bg-[#B026FF]/10 transition-all glow-purple"
                   aria-label={social.label}
                 >
                   <social.icon className="w-5 h-5" />
@@ -155,18 +155,31 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      {/* Floating Gradient Orb */}
+      {/* Floating Gradient Orb - Purple/Pink */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
+          opacity: [0.15, 0.25, 0.15],
         }}
         transition={{
           duration: 8,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute bottom-0 right-0 w-96 h-96 bg-[var(--electric-blue)] rounded-full blur-3xl"
+        className="absolute bottom-0 right-0 w-96 h-96 bg-[#B026FF] rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 1,
+        }}
+        className="absolute bottom-0 left-0 w-96 h-96 bg-[#FF006E] rounded-full blur-3xl"
       />
     </footer>
   );
