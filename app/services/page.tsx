@@ -149,7 +149,7 @@ export default function ServicesPage() {
     }
     
     try {
-      // Send email via API (in background)
+      // Send email via API
       const emailResponse = await fetch('/api/send-booking', {
         method: 'POST',
         headers: {
@@ -162,16 +162,13 @@ export default function ServicesPage() {
         throw new Error('Failed to send email');
       }
 
-      // Send to WhatsApp (in background, no popup)
+      // Prepare WhatsApp message
       const whatsappMessage = `🌐 *NEW SERVICE BOOKING FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Client Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A💼 *Service Request:*%0A• Service: ${formData.serviceType}%0A• Budget: ${formData.budget}%0A%0A💬 *Project Details:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Service Booking Form`;
       
-      // Send WhatsApp message silently using an iframe
-      const whatsappUrl = `https://wa.me/917069984184?text=${whatsappMessage}`;
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = whatsappUrl;
-      document.body.appendChild(iframe);
-      setTimeout(() => document.body.removeChild(iframe), 1000);
+      // Log WhatsApp message for manual sending
+      console.log('📱 WhatsApp Message Ready:');
+      console.log(`https://wa.me/917069984184?text=${whatsappMessage}`);
+      console.log('\n📧 Email sent successfully to ndcreation139@gmail.com');
 
       // Save to localStorage
       const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
@@ -180,6 +177,7 @@ export default function ServicesPage() {
         id: Date.now(),
         date: new Date().toISOString(),
         status: 'Pending',
+        whatsappUrl: `https://wa.me/917069984184?text=${whatsappMessage}`
       };
       bookings.push(newBooking);
       localStorage.setItem('bookings', JSON.stringify(bookings));
@@ -193,7 +191,7 @@ export default function ServicesPage() {
       }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Failed to send booking. Please try again or contact us directly via WhatsApp.');
+      alert('Failed to send booking. Please try again.');
     }
   };
 

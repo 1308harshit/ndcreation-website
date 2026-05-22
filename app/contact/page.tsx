@@ -34,7 +34,7 @@ export default function ContactPage() {
     if (!validateForm()) return;
 
     try {
-      // Send email via API (in background)
+      // Send email via API
       const emailResponse = await fetch('/api/send-contact', {
         method: 'POST',
         headers: {
@@ -47,20 +47,22 @@ export default function ContactPage() {
         throw new Error('Failed to send email');
       }
 
-      // Send to WhatsApp (in background, no popup)
+      // Prepare WhatsApp message
       const whatsappMessage = `🌐 *NEW MESSAGE FROM NDCREATIONS WEBSITE*%0A━━━━━━━━━━━━━━━━━━━━━━%0A%0A👤 *Sender Details:*%0A• Name: ${formData.name}%0A• Email: ${formData.email}%0A%0A📋 *Subject:*%0A${formData.subject}%0A%0A💬 *Message:*%0A${formData.message}%0A%0A━━━━━━━━━━━━━━━━━━━━━━%0A📅 Sent: ${new Date().toLocaleString()}%0A🌐 Source: NDcreations Contact Form`;
       
-      // Send WhatsApp message silently using an iframe
-      const whatsappUrl = `https://wa.me/917069984184?text=${whatsappMessage}`;
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = whatsappUrl;
-      document.body.appendChild(iframe);
-      setTimeout(() => document.body.removeChild(iframe), 1000);
+      // Log WhatsApp message for manual sending
+      console.log('📱 WhatsApp Message Ready:');
+      console.log(`https://wa.me/917069984184?text=${whatsappMessage}`);
+      console.log('\n📧 Email sent successfully to ndcreation139@gmail.com');
 
       // Save to localStorage
       const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-      contacts.push({ ...formData, id: Date.now(), date: new Date().toISOString() });
+      contacts.push({ 
+        ...formData, 
+        id: Date.now(), 
+        date: new Date().toISOString(),
+        whatsappUrl: `https://wa.me/917069984184?text=${whatsappMessage}`
+      });
       localStorage.setItem('contacts', JSON.stringify(contacts));
 
       setFormSubmitted(true);
@@ -71,7 +73,7 @@ export default function ContactPage() {
       }, 4000);
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Failed to send message. Please try again or contact us directly via WhatsApp.');
+      alert('Failed to send message. Please try again.');
     }
   };
 
