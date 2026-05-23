@@ -53,6 +53,24 @@ export default function ContactPage() {
       const emailResult = await emailResponse.json();
       console.log('✅ Email sent successfully:', emailResult);
 
+      // Trigger AI email reply (async - don't wait for it)
+      fetch('/api/ai/email-reply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          name: formData.name,
+        }),
+      }).then(() => {
+        console.log('🤖 AI email reply triggered');
+      }).catch((err) => {
+        console.error('AI email reply failed:', err);
+      });
+
       // Prepare WhatsApp message (simplified format for WhatsApp)
       const whatsappMessage = `🌐 NEW MESSAGE - NDCREATIONS
 
