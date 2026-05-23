@@ -1,6 +1,6 @@
-# 🤖 AI Chatbot System - Complete Setup Guide
+# 🤖 AI Chatbot System - Complete Setup Guide (100% FREE)
 
-This guide will help you set up the AI chatbot system that automatically responds to emails and WhatsApp messages using Claude AI.
+This guide will help you set up the AI chatbot system that automatically responds to emails and WhatsApp messages using **FREE and open-source AI** (Ollama).
 
 ---
 
@@ -9,83 +9,100 @@ This guide will help you set up the AI chatbot system that automatically respond
 Before starting, you'll need:
 - Node.js 18+ installed
 - Git installed
-- A credit card for API services (most have free tiers)
-- Access to your email (for verification)
+- **NO credit card required** - Everything is FREE!
+- 8GB+ RAM recommended for running AI locally
 
 ---
 
-## 🔑 Step 1: Get Anthropic Claude API Key
+## 🔑 Step 1: Install Ollama (Free Local AI)
 
-### 1.1 Create Anthropic Account
-1. Go to https://console.anthropic.com/
-2. Click "Sign Up"
-3. Enter your email and create password
-4. Verify your email address
+### 1.1 Download and Install Ollama
+1. Go to https://ollama.com/download
+2. Download Ollama for Windows
+3. Run the installer
+4. Ollama will install and start automatically
 
-### 1.2 Get API Key
-1. Log in to https://console.anthropic.com/
-2. Click on "API Keys" in the left sidebar
-3. Click "Create Key"
-4. Give it a name (e.g., "NDcreations Chatbot")
-5. Copy the API key (starts with `sk-ant-`)
-6. **IMPORTANT**: Save this key securely - you won't see it again!
+### 1.2 Download AI Model (Free)
+Open PowerShell or Command Prompt and run:
 
-### 1.3 Add Credits
-1. Go to "Billing" in the console
-2. Add payment method
-3. Add initial credits ($5-10 recommended for testing)
-4. Claude pricing: ~$3 per million input tokens, ~$15 per million output tokens
+```bash
+# Download Llama 3.2 (3B model - fast and efficient)
+ollama pull llama3.2
 
-**Cost Estimate**: For 1000 customer conversations per month, expect $50-100/month
+# OR download Mistral (7B model - more powerful)
+ollama pull mistral
 
----
+# OR download Phi-3 (3.8B model - Microsoft's model)
+ollama pull phi3
+```
 
-## 📱 Step 2: Get WhatsApp Business API (via Twilio)
+**Recommended**: Start with `llama3.2` (smaller, faster)
 
-### 2.1 Create Twilio Account
-1. Go to https://www.twilio.com/try-twilio
-2. Click "Sign up"
-3. Fill in your details:
-   - Email
-   - Password
-   - Phone number (for verification)
-4. Verify your phone number with the code sent via SMS
-5. Answer the onboarding questions
+### 1.3 Test Ollama
+```bash
+# Test the AI
+ollama run llama3.2
 
-### 2.2 Get Twilio Credentials
-1. Log in to https://console.twilio.com/
-2. On the dashboard, you'll see:
-   - **Account SID** (starts with `AC...`)
-   - **Auth Token** (click to reveal)
-3. Copy both and save them securely
+# Type a test message
+> Hello, how are you?
 
-### 2.3 Set Up WhatsApp Sandbox (for Testing)
-1. In Twilio Console, go to "Messaging" → "Try it out" → "Send a WhatsApp message"
-2. You'll see a WhatsApp number (e.g., `+1 415 523 8886`)
-3. Follow instructions to join the sandbox:
-   - Send a WhatsApp message to the Twilio number
-   - Send the code shown (e.g., "join <code>")
-4. Once joined, you can test WhatsApp messaging
+# Press Ctrl+D to exit
+```
 
-### 2.4 Get Production WhatsApp Number (Optional - for Production)
-1. Go to "Messaging" → "Services"
-2. Create a new Messaging Service
-3. Request a WhatsApp-enabled phone number
-4. Complete WhatsApp Business verification (requires business documents)
-5. **Note**: This process can take 1-2 weeks for approval
+### 1.4 Start Ollama Server
+```bash
+# Ollama runs automatically on Windows
+# It listens on http://localhost:11434
 
-**Cost Estimate**: 
-- Sandbox: Free for testing
-- Production: $0.005 per message (~$10-20/month for 1000 messages)
+# Test the API
+curl http://localhost:11434/api/generate -d "{\"model\": \"llama3.2\", \"prompt\": \"Hello\"}"
+```
+
+**Cost**: 100% FREE - Runs on your computer!
 
 ---
 
-## 🗄️ Step 3: Set Up Database (Supabase)
+## 📱 Step 2: Setup Free WhatsApp Integration
+
+### Option A: WhatsApp Web.js (Recommended - 100% Free)
+
+#### 2.1 Install whatsapp-web.js
+This uses your personal WhatsApp account (no business API needed!)
+
+```bash
+cd c:\Users\ASUS\ndcreations
+npm install whatsapp-web.js qrcode-terminal
+```
+
+#### 2.2 How It Works
+- Uses WhatsApp Web protocol
+- Scans QR code with your phone
+- Completely free
+- No API keys needed
+- Works with personal WhatsApp
+
+**Cost**: 100% FREE
+
+### Option B: Baileys (Alternative - Also Free)
+
+```bash
+npm install @whiskeysockets/baileys
+```
+
+- More features
+- Multi-device support
+- Also 100% free
+
+**We'll use Option A (whatsapp-web.js) as it's simpler**
+
+---
+
+## 🗄️ Step 3: Set Up Free Database (Supabase)
 
 ### 3.1 Create Supabase Account
 1. Go to https://supabase.com/
 2. Click "Start your project"
-3. Sign up with GitHub or email
+3. Sign up with GitHub or email (FREE)
 4. Verify your email
 
 ### 3.2 Create New Project
@@ -105,7 +122,7 @@ Before starting, you'll need:
 4. Replace `[YOUR-PASSWORD]` with your database password
 5. Save this connection string
 
-**Cost**: Free tier includes:
+**Cost**: 100% FREE
 - 500MB database
 - 2GB bandwidth
 - Unlimited API requests
@@ -121,16 +138,14 @@ Open `c:\Users\ASUS\ndcreations\.env.local` and add:
 # Existing variables
 RESEND_API_KEY=re_RczmPyZo_HJGMzVhxhpsHzvdKHccxyqkn
 
-# NEW: Anthropic Claude API
-ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
+# NEW: Ollama (Free Local AI)
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2
 
-# NEW: Twilio WhatsApp
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=your_auth_token_here
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-TWILIO_WHATSAPP_TO=whatsapp:+917069984184
+# NEW: WhatsApp (Free - using whatsapp-web.js)
+WHATSAPP_SESSION_PATH=./.wwebjs_auth
 
-# NEW: Database (Supabase)
+# NEW: Database (Supabase - Free)
 DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.xxx.supabase.co:5432/postgres
 
 # NEW: Feature Flags
@@ -140,9 +155,9 @@ AI_AUTO_REPLY=true
 AI_REQUIRE_APPROVAL=false
 
 # NEW: AI Configuration
-AI_MODEL=claude-3-5-sonnet-20241022
 AI_MAX_TOKENS=1024
 AI_TEMPERATURE=0.7
+AI_SYSTEM_PROMPT="You are a helpful AI assistant for NDcreations..."
 ```
 
 ### 4.2 Verify Configuration
@@ -159,8 +174,8 @@ npm run dev
 ```bash
 cd c:\Users\ASUS\ndcreations
 
-# Install AI and messaging packages
-npm install @anthropic-ai/sdk twilio @supabase/supabase-js
+# Install FREE AI and messaging packages
+npm install ollama whatsapp-web.js qrcode-terminal @supabase/supabase-js
 
 # Install additional utilities
 npm install zod date-fns uuid
@@ -168,6 +183,8 @@ npm install zod date-fns uuid
 # Install dev dependencies
 npm install -D @types/uuid
 ```
+
+**All packages are FREE and open-source!**
 
 ---
 
@@ -371,19 +388,27 @@ Edit `lib/ai/system-prompt.ts` to adjust:
 
 ## 🚨 Troubleshooting
 
-### Issue: AI not responding to emails
+### Issue: Ollama not responding
 **Solution**:
-1. Check Resend webhook is configured correctly
-2. Verify `ANTHROPIC_API_KEY` is set
-3. Check logs in Vercel dashboard
-4. Test webhook manually with curl
+1. Check if Ollama is running: `ollama list`
+2. Restart Ollama service
+3. Verify model is downloaded: `ollama pull llama3.2`
+4. Test API: `curl http://localhost:11434/api/generate -d "{\"model\": \"llama3.2\", \"prompt\": \"test\"}"`
 
-### Issue: WhatsApp messages not working
+### Issue: WhatsApp not connecting
 **Solution**:
-1. Verify you've joined Twilio sandbox
-2. Check Twilio webhook URL is correct
-3. Verify `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN`
-4. Check Twilio logs for errors
+1. Delete `.wwebjs_auth` folder
+2. Restart the application
+3. Scan QR code again with your phone
+4. Make sure WhatsApp is active on your phone
+5. Check internet connection
+
+### Issue: AI responses are slow
+**Solution**:
+1. Use smaller model: `ollama pull llama3.2` (3B model)
+2. Close other applications to free RAM
+3. Upgrade RAM if possible (16GB recommended)
+4. Consider using cloud-hosted Ollama
 
 ### Issue: Database connection errors
 **Solution**:
@@ -392,32 +417,42 @@ Edit `lib/ai/system-prompt.ts` to adjust:
 3. Verify database password is correct
 4. Check network connectivity
 
-### Issue: AI responses are poor quality
-**Solution**:
-1. Review and improve system prompt
-2. Add more context to knowledge base
-3. Increase `AI_MAX_TOKENS` for longer responses
-4. Adjust `AI_TEMPERATURE` (lower = more focused)
-
 ---
 
 ## 💰 Cost Summary
 
-### Monthly Costs (Estimated for 1000 conversations/month)
+### Monthly Costs (100% FREE!)
 
 | Service | Cost | Notes |
 |---------|------|-------|
-| Anthropic Claude API | $50-100 | Pay per token usage |
-| Twilio WhatsApp | $10-20 | $0.005 per message |
-| Supabase Database | $0 | Free tier sufficient |
-| Vercel Hosting | $0 | Free tier sufficient |
-| **Total** | **$60-120/month** | Scales with usage |
+| Ollama (Local AI) | $0 | Runs on your computer |
+| WhatsApp Web.js | $0 | Uses your personal WhatsApp |
+| Supabase Database | $0 | Free tier (500MB) |
+| Vercel Hosting | $0 | Free tier (100GB bandwidth) |
+| **Total** | **$0/month** | Completely FREE! |
 
-### Free Tiers
-- **Anthropic**: $5 free credits for new accounts
-- **Twilio**: $15 free credits for new accounts
-- **Supabase**: 500MB database, 2GB bandwidth free
-- **Vercel**: 100GB bandwidth free
+### Requirements
+- **Computer**: Must be running for AI to work (Ollama runs locally)
+- **RAM**: 8GB+ recommended
+- **Storage**: ~4GB for AI model
+- **Internet**: For WhatsApp and database connection
+
+### Advantages of Free Solution
+✅ No monthly costs
+✅ No API limits
+✅ Complete privacy (AI runs locally)
+✅ No credit card required
+✅ Full control over data
+
+### Disadvantages
+❌ Computer must be running 24/7
+❌ Slower than cloud AI (but still fast enough)
+❌ Uses your personal WhatsApp (not business account)
+
+**Solution for 24/7 Operation**: 
+- Keep your computer running, OR
+- Deploy Ollama to a free cloud service (Railway, Render)
+- Use a cheap VPS ($5/month) if needed
 
 ---
 
@@ -440,13 +475,18 @@ Edit `lib/ai/system-prompt.ts` to adjust:
 
 If you encounter issues:
 1. Check the troubleshooting section above
-2. Review logs in Vercel dashboard
-3. Check API service status pages
-4. Contact support:
-   - Anthropic: support@anthropic.com
-   - Twilio: https://support.twilio.com
+2. Review logs in terminal/console
+3. Check service status:
+   - Ollama: `ollama list`
+   - WhatsApp: Check QR code scan
+   - Database: Check Supabase dashboard
+4. Community support:
+   - Ollama: https://github.com/ollama/ollama/issues
+   - WhatsApp Web.js: https://github.com/pedroslopez/whatsapp-web.js
    - Supabase: https://supabase.com/support
 
 ---
 
-**Congratulations! Your AI chatbot system is now set up and ready to automatically respond to customer inquiries 24/7!** 🎉
+**Congratulations! Your 100% FREE AI chatbot system is now set up and ready to automatically respond to customer inquiries 24/7!** 🎉
+
+**Total Cost: $0/month** 💰
