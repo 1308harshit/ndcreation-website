@@ -17,10 +17,13 @@ export default function ParticleSystem({ particleCount = 50, className = '' }: P
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const canvasElement = canvas;
+    const context = ctx;
+
     // Set canvas size
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvasElement.width = window.innerWidth;
+      canvasElement.height = window.innerHeight;
     };
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -36,8 +39,8 @@ export default function ParticleSystem({ particleCount = 50, className = '' }: P
       opacity: number;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * canvasElement.width;
+        this.y = Math.random() * canvasElement.height;
         this.size = Math.random() * 3 + 1;
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
@@ -53,29 +56,27 @@ export default function ParticleSystem({ particleCount = 50, className = '' }: P
         this.y += this.speedY;
 
         // Wrap around edges
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (this.x > canvasElement.width) this.x = 0;
+        if (this.x < 0) this.x = canvasElement.width;
+        if (this.y > canvasElement.height) this.y = 0;
+        if (this.y < 0) this.y = canvasElement.height;
       }
 
       draw() {
-        if (!ctx) return;
-        
         // Draw glow
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = this.color;
+        context.shadowBlur = 15;
+        context.shadowColor = this.color;
         
         // Draw particle
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        context.fillStyle = this.color;
+        context.globalAlpha = this.opacity;
+        context.beginPath();
+        context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        context.fill();
         
         // Reset shadow
-        ctx.shadowBlur = 0;
-        ctx.globalAlpha = 1;
+        context.shadowBlur = 0;
+        context.globalAlpha = 1;
       }
     }
 
@@ -88,7 +89,7 @@ export default function ParticleSystem({ particleCount = 50, className = '' }: P
     // Animation loop
     let animationFrameId: number;
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(0, 0, canvasElement.width, canvasElement.height);
       
       particles.forEach(particle => {
         particle.update();
